@@ -1,8 +1,7 @@
 """ByteBank - Tratamento de excessões com Python."""
-import Clientes
 
 
-class ContaCorrente(Clientes):
+class ContaCorrente:
     """Criação de um objeto do tipo ContaCorrente."""
 
     _totalDeContasCriadas = 0
@@ -10,7 +9,7 @@ class ContaCorrente(Clientes):
 
     def sacar(self, valor):
         """Função que realiza saques em Conta Corrente."""
-        if (valor < self.saldo):
+        if (self.saldo < valor):
             return False
         else:
             self.saldo -= valor
@@ -29,8 +28,9 @@ class ContaCorrente(Clientes):
             contaDestino.depositar(valor)
             return True
 
-    def __init__(self, numero, agencia):
+    def __init__(self, numero, agencia, Cliente):
         """Inicializador do objeto."""
         self.numero = numero
         self.agencia = agencia
+        self.Cliente = Cliente
         ContaCorrente._totalDeContasCriadas += 1
