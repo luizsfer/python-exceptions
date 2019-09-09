@@ -1,5 +1,6 @@
 """ByteBank - Tratamento de excessões com Python."""
 import logging
+from SaldoInsuficienteException import SaldoInsuficienteException
 
 
 class ContaCorrente:
@@ -12,24 +13,24 @@ class ContaCorrente:
 
     def sacar(self, valor):
         """Função que realiza saques em Conta Corrente."""
-        if (self.saldo < valor):
-            return False
-        else:
-            self.saldo -= valor
-            return True
+        if valor < 0:
+            raise ValueError("Valor inválido para o saque.", "valor")
+
+        if self._saldo < valor:
+            raise SaldoInsuficienteException(self._saldo, valor)
+
+        self._saldo -= valor
 
     def depositar(self, valor):
         """Função que realiza depósitos em Conta Corrente."""
-        self.saldo += valor
+        self._saldo += valor
 
     def transferir(self, valor, contaDestino):
         """Função que realiza transferências em Contas Correntes."""
-        if self.saldo < valor:
-            return False
-        else:
-            self.saldo -= valor
-            contaDestino.depositar(valor)
-            return True
+        if valor <= 0:
+            raise ValueError("Valor inválido para a transferência.", "valor")
+        self._saldo -= valor
+        contaDestino.depositar(valor)
 
     def __init__(self, numero, agencia):
         """Inicializador do objeto."""
@@ -42,10 +43,10 @@ class ContaCorrente:
 
         self.numero = numero
         self.agencia = agencia
+        ContaCorrente._totalDeContasCriadas += 1
         ContaCorrente._taxaDeOperacao = (
             30 / ContaCorrente._totalDeContasCriadas
             )
-        ContaCorrente._totalDeContasCriadas += 1
 
 
 def dividir(numero, divisor):
