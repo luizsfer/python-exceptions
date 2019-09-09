@@ -8,7 +8,7 @@ class ContaCorrente:
 
     _totalDeContasCriadas = 0
     _taxaDeOperacao = 0
-    saldo = 100
+    _saldo = 100
     _cliente = ''
 
     def sacar(self, valor):
@@ -16,20 +16,20 @@ class ContaCorrente:
         if valor < 0:
             raise ValueError("Valor inválido para o saque.", "valor")
 
-        if self.saldo < valor:
-            raise SaldoInsuficienteException(self.saldo, valor)
+        if self._saldo < valor:
+            raise SaldoInsuficienteException(self._saldo, valor)
 
-        self.saldo -= valor
+        self._saldo -= valor
 
     def depositar(self, valor):
         """Função que realiza depósitos em Conta Corrente."""
-        self.saldo += valor
+        self._saldo += valor
 
     def transferir(self, valor, contaDestino):
         """Função que realiza transferências em Contas Correntes."""
         if valor <= 0:
             raise ValueError("Valor inválido para a transferência.", "valor")
-        self.saldo -= valor
+        self._saldo -= valor
         contaDestino.depositar(valor)
 
     def __init__(self, numero, agencia):
