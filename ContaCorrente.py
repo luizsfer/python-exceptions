@@ -33,6 +33,13 @@ class ContaCorrente:
 
     def __init__(self, numero, agencia):
         """Inicializador do objeto."""
+        if numero <= 0:
+            raise ValueError(
+                "O argumento numero deve ser maior que 0.", "numero")
+        elif agencia <= 0:
+            raise ValueError(
+                "O argumento agencia deve ser maior que 0.", "agencia")
+
         self.numero = numero
         self.agencia = agencia
         ContaCorrente._taxaDeOperacao = (
